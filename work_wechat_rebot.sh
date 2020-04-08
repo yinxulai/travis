@@ -1,5 +1,6 @@
 #!/bin/bash
 
+WORK_WECHAT_ROBOT_KEY='ae930e31-7693-47ee-a139-774fd5b9e468'
 
 # 检查 key
 checkKey() {
@@ -22,12 +23,18 @@ pushNotice() {
   echo $CURL_RESULT
 }
 
+  echo 'TRAVIS_EVENT_TYPE':$TRAVIS_EVENT_TYPE
+  echo 'TRAVIS_COMMIT_MESSAGE:'$TRAVIS_COMMIT_MESSAGE
+  echo '\n'
+
 # 生成消息
 generateMessage() {
-  echo $TRAVIS_COMMIT_MESSAGE
-  echo $TRAVIS_EVENT_TYPE
+  MESSAGE_CONTENT='dasdsadassd\\n>\\ndadada\\ndadas\\ndasdas'
+  MESSAGE_TEMPLATE='{"msgtype":"markdown","markdown":{"content":"'$MESSAGE_CONTENT'"}}'
+
+  # 使用 echo 向外输出结果
+  echo $MESSAGE_TEMPLATE
 }
 
-checkKey
-generateMessage
-pushNotice '{"msgtype":"markdown","markdown":{"content":"test"}}'
+# checkKey
+pushNotice `generateMessage`
