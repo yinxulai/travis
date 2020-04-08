@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+# 检查 key
 checkKey() {
   if [ -z $WORK_WECHAT_ROBOT_KEY ]; then
     echo 'WORK_WECHAT_ROBOT_KEY is nil'
@@ -7,6 +9,8 @@ checkKey() {
   fi
 }
 
+# 推送消息
+# @params $! message body
 pushNotice() {
   CURL_BODY=$1
   CURL_HEAD='Content-Type:application/json'
@@ -18,5 +22,12 @@ pushNotice() {
   echo $CURL_RESULT
 }
 
+# 生成消息
+generateMessage() {
+  echo $TRAVIS_COMMIT_MESSAGE
+  echo $TRAVIS_EVENT_TYPE
+}
+
 checkKey
+generateMessage
 pushNotice '{"msgtype":"markdown","markdown":{"content":"test"}}'
