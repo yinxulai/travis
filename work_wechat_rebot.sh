@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # 检查 key
 checkKey() {
   if [ -z $WORK_WECHAT_ROBOT_KEY ]; then
@@ -24,10 +23,27 @@ pushNotice() {
 
 # 生成消息
 generateMessage() {
-  echo $TRAVIS_COMMIT_MESSAGE
-  echo $TRAVIS_EVENT_TYPE
+  MESSAGE_FILE=`mktemp`
+  # 头
+  echo "{"                            >> $MESSAGE_FILE
+  echo '"msgtype":"markdown",'        >> $MESSAGE_FILE
+  echo '  "markdown":{'               >> $MESSAGE_FILE
+  echo '    "content":'               >> $MESSAGE_FILE
+  echo '"'                              >> $MESSAGE_FILE
+
+  echo '##### 公共依赖库变更：'           >> $MESSAGE_FILE
+  echo "> $TRAVIS_COMMIT_MESSAGE"       >> $MESSAGE_FILE
+
+  echo '"'                              >> $MESSAGE_FILE
+  echo " }"                           >> $MESSAGE_FILE
+  echo "}"                            >> $MESSAGE_FILE
+
+  # TODO: 仅仅只允许 4096 个字节 utf8
+  # https://work.weixin.qq.com/help?person_id=1&doc_id=13376
+
+  # 使用 echo 向外输出结果
+  echo @$MESSAGE_FILE
 }
 
 checkKey
-generateMessage
-pushNotice '{"msgtype":"markdown","markdown":{"content":"test"}}'
+pushNotice `generateMessage`
