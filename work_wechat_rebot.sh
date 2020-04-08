@@ -1,7 +1,5 @@
 #!/bin/bash
 
-WORK_WECHAT_ROBOT_KEY='ae930e31-7693-47ee-a139-774fd5b9e468'
-
 # 检查 key
 checkKey() {
   if [ -z $WORK_WECHAT_ROBOT_KEY ]; then
@@ -29,12 +27,27 @@ pushNotice() {
 
 # 生成消息
 generateMessage() {
-  MESSAGE_CONTENT='dasdsadassd\\n>\\ndadada\\ndadas\\ndasdas'
-  MESSAGE_TEMPLATE='{"msgtype":"markdown","markdown":{"content":"'$MESSAGE_CONTENT'"}}'
+  MESSAGE_FILE=`mktemp`
+  # 头
+  echo "{"                            >> $MESSAGE_FILE
+  echo '"msgtype":"markdown",'        >> $MESSAGE_FILE
+  echo '  "markdown":{'               >> $MESSAGE_FILE
+  echo '    "content":'               >> $MESSAGE_FILE
+  echo '"'                              >> $MESSAGE_FILE
+
+  echo '##### 公共依赖库变更：'           >> $MESSAGE_FILE
+  echo "> $TRAVIS_COMMIT_MESSAGE"       >> $MESSAGE_FILE
+
+  echo '"'                              >> $MESSAGE_FILE
+  echo " }"                           >> $MESSAGE_FILE
+  echo "}"                            >> $MESSAGE_FILE
+
+  # TODO: 仅仅只允许 4096 个字节 utf8
+  # https://work.weixin.qq.com/help?person_id=1&doc_id=13376
 
   # 使用 echo 向外输出结果
-  echo $MESSAGE_TEMPLATE
+  echo @$MESSAGE_FILE
 }
 
-# checkKey
+checkKey
 pushNotice `generateMessage`
