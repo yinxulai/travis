@@ -1,5 +1,3 @@
-if: type = push
-
 branches:
   only:
     - master
