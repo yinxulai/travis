@@ -21,6 +21,10 @@ pushNotice() {
   echo $CURL_RESULT
 }
 
+  echo 'TRAVIS_EVENT_TYPE':$TRAVIS_EVENT_TYPE
+  echo 'TRAVIS_COMMIT_MESSAGE:'$TRAVIS_COMMIT_MESSAGE
+  echo '\n'
+
 # 生成消息
 generateMessage() {
   MESSAGE_FILE=`mktemp`
