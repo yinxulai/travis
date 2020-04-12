@@ -96,7 +96,7 @@ generateMessage() {
 
   echo '> '$MESSAGE_CONTENT...'\\n'                  >> $MESSAGE_FILE
 
-  echo '[前去围观]('$GIT_REPOSITORIE_LINK')"'        >> $MESSAGE_FILE
+  echo '> [前去围观]('$GIT_REPOSITORIE_LINK')"'        >> $MESSAGE_FILE
 
     # 艾特所有人
   if isAtAll; then
