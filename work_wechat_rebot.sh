@@ -114,7 +114,7 @@ generateMessage() {
 # medged 事件的最新一条 message 永远是 Merge pull request ID from **/**
 gitCommitMessage() {
   INDEX=${1-"-1"}
-  echo `git log --pretty=format:“%s” $INDEX`
+  echo `git log --pretty=format:%s $INDEX`
 }
 
 # 仓库链接
