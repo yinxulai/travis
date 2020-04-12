@@ -92,8 +92,11 @@ generateMessage() {
   # 仅仅只允许 4096 个字节 utf8, 这里简单处理一下
   # 就当全是汉字（2个字节），最多 2000 个字，4000 字节
   # https://work.weixin.qq.com/help?person_id=1&doc_id=13376
-  echo '> '${MESSAGE_CONTENT:0:2000}...'\n'        >> $MESSAGE_FILE
-  echo '[前去围观]('$GIT_REPOSITORIE_LINK')"'           >> $MESSAGE_FILE
+  # echo '> '${MESSAGE_CONTENT:0:2000}...'\n'        >> $MESSAGE_FILE
+
+  echo '> '$MESSAGE_CONTENT...'\n'                  >> $MESSAGE_FILE
+  
+  echo '[前去围观]('$GIT_REPOSITORIE_LINK')"'        >> $MESSAGE_FILE
 
     # 艾特所有人
   if isAtAll; then
