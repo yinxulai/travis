@@ -94,7 +94,7 @@ generateMessage() {
   # https://work.weixin.qq.com/help?person_id=1&doc_id=13376
   # echo '> '${MESSAGE_CONTENT:0:2000}...'\n'        >> $MESSAGE_FILE
 
-  echo '> '$MESSAGE_CONTENT...'\n'                  >> $MESSAGE_FILE
+  echo '> '$MESSAGE_CONTENT...'\\n'                  >> $MESSAGE_FILE
 
   echo '[前去围观]('$GIT_REPOSITORIE_LINK')"'        >> $MESSAGE_FILE
 
