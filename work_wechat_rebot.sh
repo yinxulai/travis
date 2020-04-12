@@ -1,7 +1,7 @@
 #!/bin/bash
 # set -u
 
-# env
+env
 # TRAVIS_EVENT_TYPE='pull_request'
 # TRAVIS_REPO_SLUG='test/test'
 # WORK_WECHAT_ROBOT_KEY='ae930e31-7693-47ee-a139-774fd5b9e468'
