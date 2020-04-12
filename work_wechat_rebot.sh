@@ -49,9 +49,18 @@ isAtAll() {
   return 1
 }
 
+# 是否是 Push
+isPushEvent() {
+  if [[ $EVENT_TYPE == 'pull' ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
 # 是否是 PR
-isPushRequest() {
-  if [ $EVENT_TYPE == 'pull_request' ]; then
+isPushRequestEvent() {
+  if [[ $EVENT_TYPE == 'pull_request' ]]; then
     return 0
   fi
 
@@ -124,7 +133,7 @@ gitRepositorieLink() {
   echo "https://github.com/$REPO_SLUG"
 }
 
-if isPush; then
+if isPushEvent; then
   checkKey
   pushNotice `generateMessage`
 fi
