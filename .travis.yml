@@ -3,4 +3,4 @@ branches:
     - master
 
 script:
-  - sh ./work_wechat_rebot.sh
+  - bash ./work_wechat_rebot.sh

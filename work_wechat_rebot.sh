@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # 遇到异常主动推出
-# -ex
-env
+set -e
+
+# env
 # WORK_WECHAT_ROBOT_KEY='ae930e31-7693-47ee-a139-774fd5b9e468'
 # TRAVIS_COMMIT_MESSAGE='aa31233213 [x] 通知前端工作群 xxxxxx [x] @前端工作群所有人'
 
@@ -57,7 +58,7 @@ pushNotice() {
 generateMessage() {
   MESSAGE_FILE=`mktemp`
   MESSAGE_TITLE='公共依赖库变更：'
-
+  MESSAGE_CONTENT=`gitCommitMessage -1`
   # 清空
   echo '' > $MESSAGE_FILE
 
@@ -72,7 +73,7 @@ generateMessage() {
   # 仅仅只允许 4096 个字节 utf8, 这里简单处理一下
   # 就当全是汉字（2个字节），最多 2000 个字，4000 字节
   # https://work.weixin.qq.com/help?person_id=1&doc_id=13376
-  echo  '> '${TRAVIS_COMMIT_MESSAGE:0:2000}...'\\n"' >> $MESSAGE_FILE
+  echo  '> '${MESSAGE_CONTENT:0:2000}...'\\n"' >> $MESSAGE_FILE
 
     # 艾特所有人
   if isAtAll; then
@@ -86,6 +87,13 @@ generateMessage() {
 
   # 使用 echo 向外输出结果
   echo @$MESSAGE_FILE
+}
+
+# 获取 commit message
+# medged 事件的最新一条 message 永远是 Merge pull request ID from **/**
+gitCommitMessage() {
+  INDEX=${1-"-1"}
+  echo `git log --pretty=format:“%s” $INDEX`
 }
 
 if isPush; then
